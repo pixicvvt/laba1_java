@@ -45,7 +45,7 @@ public class Complex {
             throw new ArithmeticException("делить на 0 нельзя");
         }
         double newReal = (real * other.real + img * other.img)/znamenatel;
-        double newImg = (img + other.real - real * other.img)/znamenatel;
+        double newImg = (img * other.real - real * other.img)/znamenatel;
         return new Complex(newReal, newImg);
     }
  

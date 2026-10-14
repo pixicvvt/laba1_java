@@ -58,7 +58,7 @@ public class Main {
 
                     case 2:
                         matrixB = createMatrix();
-                        System.out.println("матрица D создана");
+                        System.out.println("матрица B создана");
                         matrixB.print();
                         break;
                     case 3:
