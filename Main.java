@@ -29,20 +29,29 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        ComplexMatrix matrixA = null;
-        ComplexMatrix matrixB = null;
-
+        ComplexMatrix curr = null;
         boolean code = true;
 
+        System.out.println("введите матрицу");
+         
+        while (curr == null) {
+            try {
+                curr = createMatrix();
+            } catch (NumberFormatException e) {
+                System.out.println("нужно ввести число");
+            } 
+        }
+
         while(code) {
+            System.out.println("текущая матрица:");
+            curr.print();
             System.out.println();
-            System.out.println("1. создать матрицу А");
-            System.out.println("2. создать матрицу В");
-            System.out.println("3. сложить А+В");
-            System.out.println("4. умножить А*В");
-            System.out.println("5. разделить А/В");
-            System.out.println("6. транспонировать А");
-            System.out.println("7. найти определитель А");
+            System.out.println("1. прибавить другую матрицу");
+            System.out.println("2. умножить на другую матрицу");
+            System.out.println("3. разделить на другую матрицу");
+            System.out.println("4. транспонировать текущую матрицу");
+            System.out.println("5. найти определитель текущей матрицы");
+            System.out.println("6. ввести другую матрицу");
             System.out.println("0. выход");
             System.out.println("выберите операцию: ");
             
@@ -50,60 +59,31 @@ public class Main {
                 int choice = Integer.parseInt(scanner.next());
 
                 switch (choice) {
-                    case 1: 
-                        matrixA = createMatrix();
-                        System.out.println("матрица А создана");
-                        matrixA.print();
-                        break;
-
+                    case 1:
                     case 2:
-                        matrixB = createMatrix();
-                        System.out.println("матрица B создана");
-                        matrixB.print();
-                        break;
                     case 3:
-                        if (matrixA == null || matrixB == null) {
-                            throw new IllegalArgumentException (
-                                "сначала создайте обе матрицы"
-                            );
+                        System.out.println("введите вторую матрицу");
+                        ComplexMatrix drugaya = createMatrix();
+
+                        if (choice ==1) {
+                            curr = curr.add(drugaya);
+                        } else if (choice == 2) {
+                            curr = curr.multiply(drugaya);
+                        } else {
+                            curr = curr.divide(drugaya);
                         }
-                        System.out.println("A + B:");
-                        matrixA.add(matrixB).print();
+                        
+                        System.out.println("теперь текщущая матрица - результат");
                         break;
                     case 4:
-                        if (matrixA == null || matrixB == null) {
-                            throw new IllegalArgumentException (
-                                "сначала создайте обе матрицы"
-                            );
-                        }
-                        System.out.println("A * B: ");
-                        matrixA.multiply(matrixB).print();
+                        curr = curr.tranpose();
+                        System.out.println("теперь текщущая матрица - результат");
                         break;
                     case 5:
-                        if (matrixA == null || matrixB == null) {
-                            throw new IllegalArgumentException (
-                                "сначала создайте обе матрицы"
-                            );
-                        }
-                        System.out.println("A/B: ");
-                        matrixA.divide(matrixB).print();
+                        System.out.println("det = "+ curr.determinant());
                         break;
                     case 6:
-                        if (matrixA == null) {
-                            throw new IllegalArgumentException (
-                                "сначала создайте матрицу"
-                            );
-                        }
-                        System.out.println("транспонированная матрица А");
-                        matrixA.tranpose().print();
-                        break;
-                    case 7:
-                        if (matrixA == null) {
-                            throw new IllegalArgumentException (
-                                "сначала создайте матрицу"
-                            );
-                        }
-                        System.out.println("det(А) = "+matrixA.determinant());
+                        curr = createMatrix();
                         break;
                     case 0:
                         code = false;
@@ -113,10 +93,7 @@ public class Main {
                         System.out.println("такой операции нет");
                 }
             }   catch (NumberFormatException e) {
-                System.out.println(
-                        "ошибка: нужно ввести число " +
-                        "дробную часть пишите через точку"
-                );
+                System.out.println("ошибка: нужно ввести число, дробную часть пишите через точку");
             }
         }
     }
